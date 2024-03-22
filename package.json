@@ -1,0 +1,26 @@
+{
+  "name": "twitter-approval-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node build/index.js",
+    "dev": "tsc-watch --onSucess \"npm start\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/server": "^4.10.1",
+    "@prisma/client": "^5.11.0",
+    "@types/node": "^20.11.30",
+    "express": "^4.19.1",
+    "prisma": "^5.11.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21"
+  }
+}
