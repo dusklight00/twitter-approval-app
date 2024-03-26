@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@apollo/server": "^4.10.1",
+    "@capacitor/core": "^5.7.4",
     "@prisma/client": "^5.11.0",
     "@types/node": "^20.11.30",
     "express": "^4.19.1",
