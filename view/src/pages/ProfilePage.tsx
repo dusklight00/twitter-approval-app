@@ -4,6 +4,13 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle,
+  IonChip,
+  IonButton,
+  IonInput,
 } from "@ionic/react";
 import ExploreContainer from "../components/ExploreContainer";
 
@@ -21,7 +28,42 @@ const ProfilePage: React.FC = () => {
             <IonTitle size="large">Tab 3</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <ExploreContainer name="Tab 3 page" />
+        <IonCard>
+          <IonCardHeader>
+            <IonCardTitle>Settings</IonCardTitle>
+            {/* <IonCardSubtitle>Card Subtitle</IonCardSubtitle> */}
+          </IonCardHeader>
+
+          <IonCardContent>
+            <IonInput
+              label="First Name"
+              labelPlacement="stacked"
+              type="text"
+              placeholder="Enter your first name"
+            />
+            <IonInput
+              label="Last Name"
+              labelPlacement="stacked"
+              type="text"
+              placeholder="Enter your last name"
+            />
+            <IonInput
+              label="Gender"
+              labelPlacement="stacked"
+              type="text"
+              placeholder="Enter your gender"
+            />
+            <IonInput
+              label="Twitter Handle"
+              labelPlacement="stacked"
+              type="text"
+              placeholder="Enter your twitter handle"
+            />
+          </IonCardContent>
+          <div className="px-3 pb-3">
+            <IonButton className="w-full">Save</IonButton>
+          </div>
+        </IonCard>
       </IonContent>
     </IonPage>
   );
