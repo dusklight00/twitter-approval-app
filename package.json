@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node build/index.js",
-    "dev": "tsc-watch --onSucess \"npm start\""
+    "dev": "npx tsc-watch --onSuccess \"npm start\""
   },
   "keywords": [],
   "author": "",
