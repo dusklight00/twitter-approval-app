@@ -26,13 +26,13 @@ const Login: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="h-full">
-        <div className="p-20 flex flex-col gap-10">
+        <div className="px-10 py-20 flex flex-col gap-10">
           <h1 className="text-center text-4xl font-bold">Login</h1>
           <IonInput label="Username" placeholder="Enter your username" />
           <IonInput
             label="Password"
             type="password"
-            placeholder="Enter your username"
+            placeholder="Enter your password"
           />
           <IonButton className="w-full">Login</IonButton>
         </div>

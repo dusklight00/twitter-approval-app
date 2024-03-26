@@ -27,7 +27,7 @@ import { Redirect, Route } from "react-router";
 setupIonicReact();
 
 const App: React.FC = () => {
-  const isLoggedIn = true;
+  const isLoggedIn = false;
   return (
     <IonApp>
       <IonReactRouter>
