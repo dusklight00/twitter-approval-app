@@ -28,7 +28,9 @@ import { useState } from "react";
 setupIonicReact();
 
 const App: React.FC = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
+    localStorage.getItem("token") ? true : false
+  );
   return (
     <IonApp>
       <IonReactRouter>

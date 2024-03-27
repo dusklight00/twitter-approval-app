@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   IonContent,
   IonHeader,
@@ -39,10 +39,16 @@ const FETCH_POSTS = gql`
 const CREATE_POST = gql`
   mutation Mutation($title: String!, $content: String!) {
     createPost(title: $title, content: $content) {
-      postId
+      title
+      content
     }
   }
 `;
+
+interface Post {
+  title: string;
+  content: string;
+}
 
 const DashboardPage: React.FC = () => {
   const modal = useRef<HTMLIonModalElement>(null);
@@ -50,6 +56,7 @@ const DashboardPage: React.FC = () => {
 
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const [posts, setPosts] = useState<Post[]>([]);
 
   const [createPost, { data: mutation, error: mutationError }] =
     useMutation(CREATE_POST);
@@ -59,6 +66,10 @@ const DashboardPage: React.FC = () => {
   if (loading) console.log("loading");
   if (error) console.log(error);
   if (data) console.log(data);
+
+  useEffect(() => {
+    setPosts(data?.getUserPosts ? data.getUserPosts : []);
+  }, [data]);
 
   const [message, setMessage] = useState(
     "This modal example uses triggers to automatically open a modal when the button is clicked."
@@ -73,6 +84,12 @@ const DashboardPage: React.FC = () => {
         },
       });
       console.log("Post created", data);
+      const newPost: Post = {
+        title: data.createPost.title,
+        content: data.createPost.content,
+      };
+      setPosts([...posts, newPost]);
+      console.log(newPost);
     } catch (error) {
       console.error("Error creating post", error);
     }
@@ -98,7 +115,7 @@ const DashboardPage: React.FC = () => {
             <IonTitle size="large">Tab 1</IonTitle>
           </IonToolbar>
         </IonHeader>
-        {data?.getUserPosts.map((post: any, index: number) => (
+        {[...posts].reverse().map((post: any, index: number) => (
           <div key={index}>
             <IonCard>
               <IonCardHeader>

@@ -19,6 +19,10 @@ interface ProfilePageProps {
 }
 
 const ProfilePage: React.FC<ProfilePageProps> = ({ setIsLoggedIn }) => {
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+  };
   return (
     <IonPage>
       <IonHeader>
@@ -66,7 +70,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ setIsLoggedIn }) => {
           </IonCardContent>
           <div className="px-3 pb-3">
             <IonButton className="w-full">Save</IonButton>
-            <IonButton className="w-full" onClick={() => setIsLoggedIn(false)}>
+            <IonButton className="w-full" onClick={handleLogout}>
               Logout
             </IonButton>
           </div>
