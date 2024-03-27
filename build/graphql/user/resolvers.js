@@ -56,5 +56,10 @@ const mutations = {
         }
         throw new Error("I don't know who are you");
     }),
+    approvePost: (_1, _a) => __awaiter(void 0, [_1, _a], void 0, function* (_, { postId }) {
+        const res = yield post_1.default.approvePost(postId);
+        const user = yield user_1.default.getUserById(res.userId);
+        return Object.assign(Object.assign({}, res), { user });
+    }),
 };
 exports.resolvers = { queries, mutations };

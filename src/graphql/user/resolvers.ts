@@ -49,6 +49,11 @@ const mutations = {
     }
     throw new Error("I don't know who are you");
   },
+  approvePost: async (_: any, { postId }: { postId: string }) => {
+    const res = await PostService.approvePost(postId);
+    const user = await UserService.getUserById(res.userId);
+    return { ...res, user };
+  },
 };
 
 export const resolvers = { queries, mutations };

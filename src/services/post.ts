@@ -28,6 +28,17 @@ class PostService {
   public static getAllPosts() {
     return prismaClient.post.findMany();
   }
+  public static approvePost(postId: string) {
+    console.log(postId);
+    return prismaClient.post.update({
+      where: {
+        postId,
+      },
+      data: {
+        isApproved: true,
+      },
+    });
+  }
 }
 
 export default PostService;
