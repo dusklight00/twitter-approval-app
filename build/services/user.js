@@ -24,7 +24,7 @@ class UserService {
         return hashedPassword;
     }
     static createUser(payload) {
-        const { firstName, lastName, email, password } = payload;
+        const { firstName, lastName, email, password, username } = payload;
         const salt = (0, node_crypto_1.randomBytes)(32).toString("hex");
         const hashedPassword = UserService.generateHash(salt, password);
         return db_1.prismaClient.user.create({
@@ -33,20 +33,21 @@ class UserService {
                 lastName,
                 email,
                 salt,
+                username,
                 password: hashedPassword,
             },
         });
     }
-    static getUserByEmail(email) {
-        return db_1.prismaClient.user.findUnique({ where: { email } });
+    static getUserByUsername(username) {
+        return db_1.prismaClient.user.findUnique({ where: { username } });
     }
     static getUserById(id) {
         return db_1.prismaClient.user.findUnique({ where: { id } });
     }
     static getUserToken(payload) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { email, password } = payload;
-            const user = yield UserService.getUserByEmail(email);
+            const { username, password } = payload;
+            const user = yield UserService.getUserByUsername(username);
             if (!user)
                 throw new Error("user not found");
             const userSalt = user.salt;
@@ -54,7 +55,7 @@ class UserService {
             if (usersHashPassword !== user.password)
                 throw new Error("Incorrect Password");
             // Gen Token
-            const token = jsonwebtoken_1.default.sign({ id: user.id, email: user.email }, JWT_SECRET);
+            const token = jsonwebtoken_1.default.sign({ id: user.id, username: user.username }, JWT_SECRET);
             return token;
         });
     }

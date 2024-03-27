@@ -30,7 +30,6 @@ function init() {
                 const token = req.headers["token"];
                 try {
                     const user = user_1.default.decodeJWTToken(token);
-                    console.log(user);
                     return { user };
                 }
                 catch (error) {
