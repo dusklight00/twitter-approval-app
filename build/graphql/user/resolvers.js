@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.resolvers = void 0;
 const user_1 = __importDefault(require("../../services/user"));
+const post_1 = __importDefault(require("../../services/post"));
 const queries = {
     hello: () => `Hello there, I am a graphql server`,
     say: (_, { name }) => `Hey ${name}, How are you?`,
@@ -32,6 +33,10 @@ const queries = {
 const mutations = {
     createUser: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {
         const res = yield user_1.default.createUser(payload);
+        return res;
+    }),
+    createPost: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {
+        const res = yield post_1.default.createPost(payload);
         return res;
     }),
 };

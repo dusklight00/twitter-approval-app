@@ -2,6 +2,7 @@ import UserService, {
   CreateUserPayload,
   GetUserTokenPayload,
 } from "../../services/user";
+import PostService, { createPostPayload } from "../../services/post";
 
 const queries = {
   hello: () => `Hello there, I am a graphql server`,
@@ -22,6 +23,10 @@ const queries = {
 const mutations = {
   createUser: async (_: any, payload: CreateUserPayload) => {
     const res = await UserService.createUser(payload);
+    return res;
+  },
+  createPost: async (_: any, payload: createPostPayload) => {
+    const res = await PostService.createPost(payload);
     return res;
   },
 };

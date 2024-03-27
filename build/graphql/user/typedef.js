@@ -8,4 +8,11 @@ exports.typeDefs = `#graphql
         lastName: String
         email: String!
     }
+
+    type Post {
+        postId: ID!
+        title: String!
+        content: String!
+        userId: String!
+    }
 `;
