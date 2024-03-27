@@ -29,6 +29,14 @@ const queries = {
         }
         throw new Error("I don't know who are you");
     }),
+    getUserPosts: (_, __, context) => __awaiter(void 0, void 0, void 0, function* () {
+        if (context && context.user) {
+            const id = context.user.id;
+            const posts = yield post_1.default.getUserPosts(id);
+            return posts;
+        }
+        throw new Error("I don't know who are you");
+    }),
 };
 const mutations = {
     createUser: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {

@@ -17,6 +17,13 @@ class PostService {
       },
     });
   }
+  public static getUserPosts(userId: string) {
+    return prismaClient.post.findMany({
+      where: {
+        userId,
+      },
+    });
+  }
 }
 
 export default PostService;
