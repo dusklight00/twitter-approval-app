@@ -2,7 +2,8 @@ import express from "express";
 import { expressMiddleware } from "@apollo/server/express4";
 import createApolloGraphqlServer from "./graphql";
 import UserService from "./services/user";
-import JWT from "jsonwebtoken";
+// import JWT from "jsonwebtoken";
+import cors from "cors";
 
 async function init() {
   const app = express();
@@ -15,6 +16,8 @@ async function init() {
   app.get("/", (req, res) => {
     res.json({ message: "Server is up and running" });
   });
+
+  app.use(cors());
 
   app.use(
     "/graphql",

@@ -10,10 +10,28 @@ import {
   IonButton,
 } from "@ionic/react";
 import { useState } from "react";
+import { useQuery, gql } from "@apollo/client";
+
+const query = gql`
+  query Query($username: String!, $password: String!) {
+    getUserToken(username: $username, password: $password)
+  }
+`;
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
+  const { loading, error, data } = useQuery(query, {
+    variables: {
+      username,
+      password,
+    },
+  });
+
+  if (error) console.log(error);
+  if (loading) console.log("loading");
+  if (data) console.log(data);
 
   return (
     <div className="h-full">
