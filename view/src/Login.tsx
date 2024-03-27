@@ -51,6 +51,7 @@ const Login: React.FC<LoginProps> = ({ setIsLoggedIn }) => {
       setIsToastOpen(true);
       return;
     }
+    localStorage.setItem("token", data.getUserToken);
     setIsLoggedIn(true);
   };
 
