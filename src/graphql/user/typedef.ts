@@ -4,6 +4,7 @@ export const typeDefs = `#graphql
         firstName: String!
         lastName: String
         email: String!
+        isAdmin: Boolean!
     }
 
     type Post {
