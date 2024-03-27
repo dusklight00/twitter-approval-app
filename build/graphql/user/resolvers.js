@@ -8,25 +8,31 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.resolvers = void 0;
-const db_1 = require("./../../lib/db");
+const user_1 = __importDefault(require("../../services/user"));
 const queries = {
     hello: () => `Hello there, I am a graphql server`,
     say: (_, { name }) => `Hey ${name}, How are you?`,
+    getUserToken(_, payload) {
+        return user_1.default.getUserToken(payload);
+    },
+    getCurrentLoggedInUser: (_, __, context) => __awaiter(void 0, void 0, void 0, function* () {
+        if (context && context.user) {
+            const id = context.user.id;
+            const user = yield user_1.default.getUserById(id);
+            return user;
+        }
+        throw new Error("I don't know who are you");
+    }),
 };
 const mutations = {
-    createUser: (_1, _a) => __awaiter(void 0, [_1, _a], void 0, function* (_, { firstName, lastName, email, password, }) {
-        yield db_1.prismaClient.user.create({
-            data: {
-                firstName,
-                lastName,
-                email,
-                password,
-                salt: "random_salt",
-            },
-        });
-        return true;
+    createUser: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {
+        const res = yield user_1.default.createUser(payload);
+        return res;
     }),
 };
 exports.resolvers = { queries, mutations };
