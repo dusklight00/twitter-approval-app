@@ -43,9 +43,13 @@ const mutations = {
         const res = yield user_1.default.createUser(payload);
         return res;
     }),
-    createPost: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {
-        const res = yield post_1.default.createPost(payload);
-        return res;
+    createPost: (_, payload, context) => __awaiter(void 0, void 0, void 0, function* () {
+        if (context && context.user) {
+            const id = context.user.id;
+            const res = yield post_1.default.createPost(payload, id);
+            return res;
+        }
+        throw new Error("I don't know who are you");
     }),
 };
 exports.resolvers = { queries, mutations };

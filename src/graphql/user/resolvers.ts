@@ -33,9 +33,13 @@ const mutations = {
     const res = await UserService.createUser(payload);
     return res;
   },
-  createPost: async (_: any, payload: createPostPayload) => {
-    const res = await PostService.createPost(payload);
-    return res;
+  createPost: async (_: any, payload: createPostPayload, context: any) => {
+    if (context && context.user) {
+      const id = context.user.id;
+      const res = await PostService.createPost(payload, id);
+      return res;
+    }
+    throw new Error("I don't know who are you");
   },
 };
 

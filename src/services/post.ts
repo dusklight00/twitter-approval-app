@@ -7,8 +7,8 @@ export interface createPostPayload {
 }
 
 class PostService {
-  public static createPost(payload: createPostPayload) {
-    const { title, content, userId } = payload;
+  public static createPost(payload: createPostPayload, userId: string) {
+    const { title, content } = payload;
     return prismaClient.post.create({
       data: {
         title,

@@ -24,7 +24,8 @@ import {
 import { add } from "ionicons/icons";
 import { OverlayEventDetail } from "@ionic/core/components";
 import ExploreContainer from "../components/ExploreContainer";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useQuery, useMutation } from "@apollo/client";
+import e from "cors";
 
 const FETCH_POSTS = gql`
   query Query {
@@ -35,9 +36,23 @@ const FETCH_POSTS = gql`
   }
 `;
 
+const CREATE_POST = gql`
+  mutation Mutation($title: String!, $content: String!) {
+    createPost(title: $title, content: $content) {
+      postId
+    }
+  }
+`;
+
 const DashboardPage: React.FC = () => {
   const modal = useRef<HTMLIonModalElement>(null);
   const input = useRef<HTMLIonInputElement>(null);
+
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+
+  const [createPost, { data: mutation, error: mutationError }] =
+    useMutation(CREATE_POST);
 
   const { loading, error, data } = useQuery(FETCH_POSTS);
 
@@ -49,7 +64,18 @@ const DashboardPage: React.FC = () => {
     "This modal example uses triggers to automatically open a modal when the button is clicked."
   );
 
-  function confirm() {
+  async function confirm() {
+    try {
+      const { data } = await createPost({
+        variables: {
+          title: title,
+          content: body,
+        },
+      });
+      console.log("Post created", data);
+    } catch (error) {
+      console.error("Error creating post", error);
+    }
     modal.current?.dismiss(input.current?.value, "confirm");
   }
 
@@ -72,7 +98,7 @@ const DashboardPage: React.FC = () => {
             <IonTitle size="large">Tab 1</IonTitle>
           </IonToolbar>
         </IonHeader>
-        {data.getUserPosts.map((post: any, index: number) => (
+        {data?.getUserPosts.map((post: any, index: number) => (
           <div key={index}>
             <IonCard>
               <IonCardHeader>
@@ -121,6 +147,8 @@ const DashboardPage: React.FC = () => {
                   label="Post Title"
                   labelPlacement="stacked"
                   ref={input}
+                  value={title}
+                  onInput={(e: any) => setTitle(e.target.value)}
                   type="text"
                   placeholder="Enter your title"
                 />
@@ -129,6 +157,8 @@ const DashboardPage: React.FC = () => {
                 <IonTextarea
                   label="Post Body"
                   labelPlacement="stacked"
+                  value={body}
+                  onInput={(e: any) => setBody(e.target.value)}
                   className="h-48"
                   placeholder="Type something here"
                 ></IonTextarea>
