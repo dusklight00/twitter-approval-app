@@ -22,9 +22,17 @@ const queries = {
     if (context && context.user) {
       const id = context.user.id;
       const posts = await PostService.getUserPosts(id);
-      return posts;
+      const user = await UserService.getUserById(id);
+      return posts.map((post) => ({ ...post, user }));
     }
     throw new Error("I don't know who are you");
+  },
+  getAllPosts: async (_: any, __: any) => {
+    const posts = await PostService.getAllPosts();
+    return posts.map((post) => ({
+      ...post,
+      user: UserService.getUserById(post.userId),
+    }));
   },
 };
 

@@ -33,9 +33,14 @@ const queries = {
         if (context && context.user) {
             const id = context.user.id;
             const posts = yield post_1.default.getUserPosts(id);
-            return posts;
+            const user = yield user_1.default.getUserById(id);
+            return posts.map((post) => (Object.assign(Object.assign({}, post), { user })));
         }
         throw new Error("I don't know who are you");
+    }),
+    getAllPosts: (_, __) => __awaiter(void 0, void 0, void 0, function* () {
+        const posts = yield post_1.default.getAllPosts();
+        return posts.map((post) => (Object.assign(Object.assign({}, post), { user: user_1.default.getUserById(post.userId) })));
     }),
 };
 const mutations = {

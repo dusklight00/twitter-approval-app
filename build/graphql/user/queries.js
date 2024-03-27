@@ -7,4 +7,5 @@ exports.queries = `#graphql
     getUserToken(username: String!, password: String!): String
     getCurrentLoggedInUser: User
     getUserPosts: [Post]
+    getAllPosts: [Post]
 `;

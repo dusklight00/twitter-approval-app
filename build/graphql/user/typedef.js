@@ -16,5 +16,6 @@ exports.typeDefs = `#graphql
         content: String!
         userId: String!
         isApproved: Boolean!
+        user: User
     }
 `;
