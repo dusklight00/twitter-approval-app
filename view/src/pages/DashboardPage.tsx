@@ -32,6 +32,7 @@ const FETCH_POSTS = gql`
     getUserPosts {
       title
       content
+      isApproved
     }
   }
 `;
@@ -48,6 +49,7 @@ const CREATE_POST = gql`
 interface Post {
   title: string;
   content: string;
+  isApproved: boolean;
 }
 
 const DashboardPage: React.FC = () => {
@@ -87,6 +89,7 @@ const DashboardPage: React.FC = () => {
       const newPost: Post = {
         title: data.createPost.title,
         content: data.createPost.content,
+        isApproved: false,
       };
       setPosts([...posts, newPost]);
       console.log(newPost);
@@ -127,9 +130,15 @@ const DashboardPage: React.FC = () => {
                 <p>{post.content}</p>
               </IonCardContent>
               <div className="px-3 pb-3">
-                <IonChip color="danger" className="m-0">
-                  Not Approved
-                </IonChip>
+                {data.getUserPosts.isApproved ? (
+                  <IonChip color="success" className="m-0">
+                    Approved
+                  </IonChip>
+                ) : (
+                  <IonChip color="danger" className="m-0">
+                    Not Approved
+                  </IonChip>
+                )}
               </div>
             </IonCard>
           </div>

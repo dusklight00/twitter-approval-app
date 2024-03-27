@@ -28,11 +28,12 @@ model User {
 }
 
 model Post {
-  postId  String @id @default(uuid()) @map("post_id")
-  title   String
-  content String
-  userId  String @map("user_id")
-  user    User   @relation(fields: [userId], references: [id])
+  postId     String  @id @default(uuid()) @map("post_id")
+  title      String
+  content    String
+  isApproved Boolean @map("is_approved")
+  userId     String  @map("user_id")
+  user       User    @relation(fields: [userId], references: [id])
 
   @@map("posts")
 }

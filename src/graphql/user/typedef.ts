@@ -12,5 +12,6 @@ export const typeDefs = `#graphql
         title: String!
         content: String!
         userId: String!
+        isApproved: Boolean!
     }
 `;

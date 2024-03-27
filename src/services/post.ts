@@ -14,6 +14,7 @@ class PostService {
         title,
         content,
         userId,
+        isApproved: false,
       },
     });
   }
