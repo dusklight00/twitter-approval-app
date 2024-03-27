@@ -40,7 +40,11 @@ const App: React.FC = () => {
           )}
         </Route>
         <Route path="/">
-          {!isLoggedIn ? <Redirect to="/login" /> : <Dashboard />}
+          {!isLoggedIn ? (
+            <Redirect to="/login" />
+          ) : (
+            <Dashboard setIsLoggedIn={setIsLoggedIn} />
+          )}
         </Route>
       </IonReactRouter>
     </IonApp>

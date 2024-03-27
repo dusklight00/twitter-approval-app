@@ -11,7 +11,11 @@ import { personCircleOutline, homeOutline } from "ionicons/icons";
 import DashboardPage from "./pages/DashboardPage";
 import ProfilePage from "./pages/ProfilePage";
 
-const Dashboard: React.FC = () => {
+interface DashboardProps {
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ setIsLoggedIn }) => {
   return (
     <IonTabs>
       <IonRouterOutlet>
@@ -19,7 +23,7 @@ const Dashboard: React.FC = () => {
           <DashboardPage />
         </Route>
         <Route path="/tab3">
-          <ProfilePage />
+          <ProfilePage setIsLoggedIn={setIsLoggedIn} />
         </Route>
         <Route exact path="/">
           <Redirect to="/tab1" />
