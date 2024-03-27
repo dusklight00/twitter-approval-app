@@ -4,6 +4,12 @@ export const typeDefs = `#graphql
         firstName: String!
         lastName: String
         email: String!
-        profileImageURL: String
+    }
+
+    type Post {
+        postId: ID!
+        title: String!
+        content: String!
+        userId: String!
     }
 `;

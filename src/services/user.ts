@@ -13,11 +13,12 @@ export interface CreateUserPayload {
   firstName: string;
   lastName: string;
   email: string;
+  username: string;
   password: string;
 }
 
 export interface GetUserTokenPayload {
-  email: string;
+  username: string;
   password: string;
 }
 
@@ -30,7 +31,7 @@ class UserService {
   }
 
   public static createUser(payload: CreateUserPayload) {
-    const { firstName, lastName, email, password } = payload;
+    const { firstName, lastName, email, password, username } = payload;
 
     const salt = randomBytes(32).toString("hex");
     const hashedPassword = UserService.generateHash(salt, password);
@@ -41,13 +42,14 @@ class UserService {
         lastName,
         email,
         salt,
+        username,
         password: hashedPassword,
       },
     });
   }
 
-  private static getUserByEmail(email: string) {
-    return prismaClient.user.findUnique({ where: { email } });
+  private static getUserByUsername(username: string) {
+    return prismaClient.user.findUnique({ where: { username } });
   }
 
   public static getUserById(id: string) {
@@ -55,8 +57,8 @@ class UserService {
   }
 
   public static async getUserToken(payload: GetUserTokenPayload) {
-    const { email, password } = payload;
-    const user = await UserService.getUserByEmail(email);
+    const { username, password } = payload;
+    const user = await UserService.getUserByUsername(username);
     if (!user) throw new Error("user not found");
 
     const userSalt = user.salt;
@@ -66,7 +68,10 @@ class UserService {
       throw new Error("Incorrect Password");
 
     // Gen Token
-    const token = JWT.sign({ id: user.id, email: user.email }, JWT_SECRET);
+    const token = JWT.sign(
+      { id: user.id, username: user.username },
+      JWT_SECRET
+    );
 
     return token;
   }

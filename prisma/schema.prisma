@@ -14,12 +14,24 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())
+  id        String @id @default(uuid())
+  username  String @unique
   firstName String @map("first_name")
-  lastName String @map("last_name")
-  email String @unique
-  password String
-  salt String
+  lastName  String @map("last_name")
+  email     String @unique
+  password  String
+  salt      String
+  Post      Post[]
 
   @@map("users")
+}
+
+model Post {
+  postId  String @id @default(uuid()) @map("post_id")
+  title   String
+  content String
+  userId  String @map("user_id")
+  user    User   @relation(fields: [userId], references: [id])
+
+  @@map("posts")
 }

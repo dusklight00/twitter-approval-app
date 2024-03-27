@@ -14,7 +14,15 @@ import {
 } from "@ionic/react";
 import ExploreContainer from "../components/ExploreContainer";
 
-const ProfilePage: React.FC = () => {
+interface ProfilePageProps {
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const ProfilePage: React.FC<ProfilePageProps> = ({ setIsLoggedIn }) => {
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+  };
   return (
     <IonPage>
       <IonHeader>
@@ -62,6 +70,9 @@ const ProfilePage: React.FC = () => {
           </IonCardContent>
           <div className="px-3 pb-3">
             <IonButton className="w-full">Save</IonButton>
+            <IonButton className="w-full" onClick={handleLogout}>
+              Logout
+            </IonButton>
           </div>
         </IonCard>
       </IonContent>

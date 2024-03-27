@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.resolvers = void 0;
 const user_1 = __importDefault(require("../../services/user"));
+const post_1 = __importDefault(require("../../services/post"));
 const queries = {
     hello: () => `Hello there, I am a graphql server`,
     say: (_, { name }) => `Hey ${name}, How are you?`,
@@ -28,11 +29,27 @@ const queries = {
         }
         throw new Error("I don't know who are you");
     }),
+    getUserPosts: (_, __, context) => __awaiter(void 0, void 0, void 0, function* () {
+        if (context && context.user) {
+            const id = context.user.id;
+            const posts = yield post_1.default.getUserPosts(id);
+            return posts;
+        }
+        throw new Error("I don't know who are you");
+    }),
 };
 const mutations = {
     createUser: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {
         const res = yield user_1.default.createUser(payload);
         return res;
+    }),
+    createPost: (_, payload, context) => __awaiter(void 0, void 0, void 0, function* () {
+        if (context && context.user) {
+            const id = context.user.id;
+            const res = yield post_1.default.createPost(payload, id);
+            return res;
+        }
+        throw new Error("I don't know who are you");
     }),
 };
 exports.resolvers = { queries, mutations };
