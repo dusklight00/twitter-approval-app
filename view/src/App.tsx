@@ -23,16 +23,21 @@ import Dashboard from "./Dashboard";
 /* Theme variables */
 import "./theme/variables.css";
 import { Redirect, Route } from "react-router";
+import { useState } from "react";
 
 setupIonicReact();
 
 const App: React.FC = () => {
-  const isLoggedIn = false;
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   return (
     <IonApp>
       <IonReactRouter>
         <Route exact path="/login">
-          <Login />
+          {isLoggedIn ? (
+            <Redirect to="/" />
+          ) : (
+            <Login setIsLoggedIn={setIsLoggedIn} />
+          )}
         </Route>
         <Route path="/">
           {!isLoggedIn ? <Redirect to="/login" /> : <Dashboard />}

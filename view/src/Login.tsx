@@ -8,6 +8,7 @@ import {
   IonToolbar,
   IonInput,
   IonButton,
+  IonToast,
 } from "@ionic/react";
 import { useState } from "react";
 import { useQuery, gql } from "@apollo/client";
@@ -18,9 +19,15 @@ const query = gql`
   }
 `;
 
-const Login: React.FC = () => {
+interface LoginProps {
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Login: React.FC<LoginProps> = ({ setIsLoggedIn }) => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [isToastOpen, setIsToastOpen] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
 
   const { loading, error, data } = useQuery(query, {
     variables: {
@@ -32,6 +39,20 @@ const Login: React.FC = () => {
   if (error) console.log(error);
   if (loading) console.log("loading");
   if (data) console.log(data);
+
+  const handleSubmit = () => {
+    if (username === "" || password === "") {
+      setMessage("Please fill all the fields");
+      setIsToastOpen(true);
+      return;
+    }
+    if (error) {
+      setMessage("Invalid credentials");
+      setIsToastOpen(true);
+      return;
+    }
+    setIsLoggedIn(true);
+  };
 
   return (
     <div className="h-full">
@@ -63,7 +84,15 @@ const Login: React.FC = () => {
             value={password}
             onIonInput={(e: any) => setPassword(e.target.value)}
           />
-          <IonButton className="w-full">Login</IonButton>
+          <IonButton className="w-full" onClick={handleSubmit}>
+            Login
+          </IonButton>
+          <IonToast
+            isOpen={isToastOpen}
+            message={message}
+            onDidDismiss={() => setIsToastOpen(false)}
+            duration={5000}
+          ></IonToast>
         </div>
       </IonContent>
     </div>
