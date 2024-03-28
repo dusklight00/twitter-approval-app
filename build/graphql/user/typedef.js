@@ -7,6 +7,8 @@ exports.typeDefs = `#graphql
         firstName: String!
         lastName: String
         email: String!
+        isAdmin: Boolean!
+        username: String!
     }
 
     type Post {
@@ -14,5 +16,7 @@ exports.typeDefs = `#graphql
         title: String!
         content: String!
         userId: String!
+        isApproved: Boolean!
+        user: User
     }
 `;

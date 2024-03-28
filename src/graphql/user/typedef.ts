@@ -4,6 +4,8 @@ export const typeDefs = `#graphql
         firstName: String!
         lastName: String
         email: String!
+        isAdmin: Boolean!
+        username: String!
     }
 
     type Post {
@@ -11,5 +13,7 @@ export const typeDefs = `#graphql
         title: String!
         content: String!
         userId: String!
+        isApproved: Boolean!
+        user: User
     }
 `;

@@ -14,6 +14,7 @@ class PostService {
         title,
         content,
         userId,
+        isApproved: false,
       },
     });
   }
@@ -21,6 +22,19 @@ class PostService {
     return prismaClient.post.findMany({
       where: {
         userId,
+      },
+    });
+  }
+  public static getAllPosts() {
+    return prismaClient.post.findMany();
+  }
+  public static approvePost(postId: string) {
+    return prismaClient.post.update({
+      where: {
+        postId,
+      },
+      data: {
+        isApproved: true,
       },
     });
   }

@@ -24,7 +24,7 @@ class UserService {
         return hashedPassword;
     }
     static createUser(payload) {
-        const { firstName, lastName, email, password, username } = payload;
+        const { firstName, lastName, email, password, username, isAdmin } = payload;
         const salt = (0, node_crypto_1.randomBytes)(32).toString("hex");
         const hashedPassword = UserService.generateHash(salt, password);
         return db_1.prismaClient.user.create({
@@ -35,6 +35,7 @@ class UserService {
                 salt,
                 username,
                 password: hashedPassword,
+                isAdmin,
             },
         });
     }
