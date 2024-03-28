@@ -46,6 +46,48 @@ const CREATE_POST = gql`
   }
 `;
 
+const USER_DATA = gql`
+  query Query {
+    getCurrentLoggedInUser {
+      isAdmin
+    }
+  }
+`;
+
+const FETCH_ALL_POSTS = gql`
+  query Query {
+    getAllPosts {
+      content
+      isApproved
+      title
+      postId
+      user {
+        username
+      }
+    }
+  }
+`;
+
+const APPROVE_POST = gql`
+  mutation Mutation($postId: ID!) {
+    approvePost(postId: $postId) {
+      postId
+      title
+      content
+      userId
+      isApproved
+      user {
+        id
+        firstName
+        lastName
+        email
+        isAdmin
+        username
+      }
+    }
+  }
+`;
+
 interface Post {
   title: string;
   content: string;
@@ -59,19 +101,42 @@ const DashboardPage: React.FC = () => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [posts, setPosts] = useState<Post[]>([]);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const [createPost, { data: mutation, error: mutationError }] =
     useMutation(CREATE_POST);
+  const [approvePost, _] = useMutation(APPROVE_POST);
 
   const { loading, error, data } = useQuery(FETCH_POSTS);
+  const { data: userData } = useQuery(USER_DATA);
+  const { error: allPostError, data: allPostData } = useQuery(FETCH_ALL_POSTS);
+
+  const handleApprovePost = async (e: any) => {
+    console.log(allPostData);
+    const postId = e.currentTarget.id;
+    const result = await approvePost({
+      variables: {
+        postId,
+      },
+    });
+    setPosts(allPostData?.getAllPosts ? allPostData.getAllPosts : []);
+    console.log(result);
+  };
+
+  // console.log(allPostData);
 
   if (loading) console.log("loading");
   if (error) console.log(error);
-  if (data) console.log(data);
+  // if (data) console.log(data);
+
+  console.log(isAdmin);
 
   useEffect(() => {
-    setPosts(data?.getUserPosts ? data.getUserPosts : []);
-  }, [data]);
+    setIsAdmin(userData?.getCurrentLoggedInUser.isAdmin);
+    if (isAdmin)
+      setPosts(allPostData?.getAllPosts ? allPostData.getAllPosts : []);
+    else setPosts(data?.getUserPosts ? data.getUserPosts : []);
+  }, [data, isAdmin, userData]);
 
   const [message, setMessage] = useState(
     "This modal example uses triggers to automatically open a modal when the button is clicked."
@@ -118,11 +183,17 @@ const DashboardPage: React.FC = () => {
             <IonTitle size="large">Tab 1</IonTitle>
           </IonToolbar>
         </IonHeader>
+
         {[...posts].reverse().map((post: any, index: number) => (
           <div key={index}>
             <IonCard>
               <IonCardHeader>
                 <IonCardTitle>{post.title}</IonCardTitle>
+                {isAdmin ? (
+                  <IonCardSubtitle>{post.user.username}</IonCardSubtitle>
+                ) : (
+                  ""
+                )}
                 {/* <IonCardSubtitle>Card Subtitle</IonCardSubtitle> */}
               </IonCardHeader>
 
@@ -130,7 +201,7 @@ const DashboardPage: React.FC = () => {
                 <p>{post.content}</p>
               </IonCardContent>
               <div className="px-3 pb-3">
-                {data.getUserPosts.isApproved ? (
+                {post.isApproved ? (
                   <IonChip color="success" className="m-0">
                     Approved
                   </IonChip>
@@ -138,6 +209,13 @@ const DashboardPage: React.FC = () => {
                   <IonChip color="danger" className="m-0">
                     Not Approved
                   </IonChip>
+                )}
+                {isAdmin ? (
+                  <IonButton id={post.postId} onClick={handleApprovePost}>
+                    Approve
+                  </IonButton>
+                ) : (
+                  ""
                 )}
               </div>
             </IonCard>

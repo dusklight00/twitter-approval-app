@@ -29,7 +29,6 @@ class PostService {
     return prismaClient.post.findMany();
   }
   public static approvePost(postId: string) {
-    console.log(postId);
     return prismaClient.post.update({
       where: {
         postId,
