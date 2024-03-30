@@ -17,7 +17,14 @@ async function init() {
 
   const gqlServer = await createApolloGraphqlServer();
 
-g
+  const client = new TwitterApi({
+    appKey: "h0QyAHrDwVV5pF9UWr3guS4ND",
+    appSecret: "gjiG0r9ZNCPxxQ4Z5G4TkiepfGTCPigQvUsFbjgnbR0hBlzUJ7",
+    accessToken: "1773923161395929089-HabCqpk6BmfwSrzAKegHpjkYz7MBO2",
+    accessSecret: "ysGu9blTficrqUrF1AinsYMvjCnRDuoDImDbcSuOnGHmc",
+  });
+  
+  const twitterClient = client.readWrite;
 
   app.get("/", (req, res) => {
     res.json({ message: "Server is up and running" });
