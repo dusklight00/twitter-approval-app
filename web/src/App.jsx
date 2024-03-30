@@ -7,6 +7,8 @@ import {
 } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AddIcon from "@mui/icons-material/Add";
+
+import AdminCard from "./components/AdminCard";
 import UserCard from "./components/UserCard";
 
 function App() {
@@ -24,7 +26,10 @@ function App() {
         <Typography variant="h5" component="h5" my="30px">
           <b>Users</b>
         </Typography>
-        <UserCard />
+        <Stack gap={3}>
+          <AdminCard />
+          <UserCard />
+        </Stack>
       </Container>
     </>
   );

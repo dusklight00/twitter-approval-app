@@ -13,7 +13,7 @@ import {
   IconButton,
 } from "@mui/material";
 
-function UserCard() {
+function AdminCard() {
   return (
     <Card>
       <CardContent>
@@ -49,22 +49,29 @@ function UserCard() {
                 color="text.secondary"
                 gutterBottom
               >
-                Tweeted
+                Approved
+              </Typography>
+            </Paper>
+            <Paper className="p-3">
+              <Typography variant="h5" component="div">
+                12
+              </Typography>
+              <Typography
+                sx={{ fontSize: 14 }}
+                color="text.secondary"
+                gutterBottom
+              >
+                Declined
               </Typography>
             </Paper>
           </Stack>
 
           {/* <Divider /> */}
-          <Chip
-            label="Not admin"
-            size="small"
-            color="error"
-            className="w-min"
-          />
+          <Chip label="Admin" size="small" color="success" className="w-min" />
         </Stack>
       </CardContent>
     </Card>
   );
 }
 
-export default UserCard;
+export default AdminCard;
