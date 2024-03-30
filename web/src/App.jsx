@@ -1,9 +1,10 @@
 import SystemDashboard from "./pages/SystemDashboard";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   return (
     <>
-      <SystemDashboard />
+      <LoginPage />
     </>
   );
 }
