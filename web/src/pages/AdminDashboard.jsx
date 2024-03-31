@@ -6,10 +6,6 @@ import {
   Stack,
 } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
-import AddIcon from "@mui/icons-material/Add";
-
-import AdminCard from "../components/AdminCard";
-import UserCard from "../components/UserCard";
 import PostCard from "../components/PostCard";
 
 function AdminDashboard() {

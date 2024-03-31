@@ -4,7 +4,6 @@ import createApolloGraphqlServer from "./graphql";
 import UserService from "./services/user";
 // import JWT from "jsonwebtoken";
 import cors from "cors";
-import { TwitterAPI } from "./services/twitter";
 
 async function init() {
   const app = express();
