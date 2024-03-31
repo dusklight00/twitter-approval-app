@@ -18,5 +18,18 @@ exports.typeDefs = `#graphql
         userId: String!
         isApproved: Boolean!
         user: User
+        image : Image
     }
+
+    type Image {
+        filename: String!
+        contentType: String!
+        data: String!
+    }
+
+input ImageInput {
+  filename: String!
+  contentType: String!
+  data: String!
+}
 `;

@@ -92,6 +92,7 @@ interface Post {
   title: string;
   content: string;
   isApproved: boolean;
+  image: string | null;
 }
 
 const DashboardPage: React.FC = () => {
@@ -102,6 +103,7 @@ const DashboardPage: React.FC = () => {
   const [body, setBody] = useState("");
   const [posts, setPosts] = useState<Post[]>([]);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [image, setImage] = useState<string| null>("");
 
   const [createPost, { data: mutation, error: mutationError }] =
     useMutation(CREATE_POST);
@@ -157,6 +159,7 @@ const DashboardPage: React.FC = () => {
         title: data.createPost.title,
         content: data.createPost.content,
         isApproved: false,
+        image: image ? image : null,
       };
       setPosts([...posts, newPost]);
       console.log(newPost);
@@ -169,6 +172,20 @@ const DashboardPage: React.FC = () => {
   function onWillDismiss(ev: CustomEvent<OverlayEventDetail>) {
     if (ev.detail.role === "confirm") {
       setMessage(`Hello, ${ev.detail.data}!`);
+    }
+  }
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      const selectedFile = files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const imageDataURL = reader.result as string;
+        // Set the preview image in state or display it directly
+        setImage(imageDataURL);
+      };
+      reader.readAsDataURL(selectedFile);
     }
   }
 
@@ -192,7 +209,7 @@ const DashboardPage: React.FC = () => {
               <IonCardHeader>
                 <IonCardTitle>{post.title}</IonCardTitle>
                 {isAdmin ? (
-                  <IonCardSubtitle>{post.user.username}</IonCardSubtitle>
+                  <IonCardSubtitle>{post.user?.username || " "}</IonCardSubtitle>
                 ) : (
                   ""
                 )}
@@ -202,6 +219,7 @@ const DashboardPage: React.FC = () => {
               <IonCardContent>
                 <p>{post.content}</p>
               </IonCardContent>
+              {post.image ? <img src={post.image as string} alt="preview" /> : null}
               <div className="px-3 pb-3">
                 {post.isApproved ? (
                   <IonChip color="success" className="m-0">
@@ -268,6 +286,13 @@ const DashboardPage: React.FC = () => {
                   className="h-48"
                   placeholder="Type something here"
                 ></IonTextarea>
+              </IonItem>
+              <IonItem>
+                <input 
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                />
               </IonItem>
             </IonContent>
           </IonModal>

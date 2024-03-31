@@ -16,4 +16,5 @@ export const typeDefs = `#graphql
         isApproved: Boolean!
         user: User
     }
+
 `;
