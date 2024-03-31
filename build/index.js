@@ -40,7 +40,8 @@ function init() {
         });
         app.use("/approve", (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
-                yield twitterClient.v2.tweet("Hello world!");
+                const { body } = req.body;
+                yield twitterClient.v2.tweet(body);
                 res.json({ message: "Tweeted successfully" });
             }
             catch (e) {

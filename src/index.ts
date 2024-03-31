@@ -33,7 +33,8 @@ async function init() {
 
   app.use("/approve", async (req, res) => {
     try {
-      await twitterClient.v2.tweet("Hello world!");
+      const {body} = req.body;
+      await twitterClient.v2.tweet(body);
       res.json({ message: "Tweeted successfully" });
     } catch (e) {
       console.log(e)

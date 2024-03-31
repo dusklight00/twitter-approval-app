@@ -25,6 +25,7 @@ import { add } from "ionicons/icons";
 import { OverlayEventDetail } from "@ionic/core/components";
 import ExploreContainer from "../components/ExploreContainer";
 import { gql, useQuery, useMutation } from "@apollo/client";
+import axios from "axios";
 import e from "cors";
 
 const FETCH_POSTS = gql`
@@ -117,6 +118,13 @@ const DashboardPage: React.FC = () => {
   const handleApprovePost = async (e: any) => {
     console.log(allPostData);
     const postId = e.currentTarget.id;
+    const post = posts.find((post) => post.postId === postId);
+    try {
+      const body = post?.content;
+      await axios.post("http://localhost:8000/approve", { body })
+    } catch (e) {
+      console.log(e)
+    }
     const result = await approvePost({
       variables: {
         postId,
