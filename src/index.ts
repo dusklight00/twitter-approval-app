@@ -30,7 +30,6 @@ async function init() {
     res.json({ message: "Server is up and running" });
   });
 
-
   app.use("/approve", async (req, res) => {
     try {
       await twitterClient.v2.tweet("Hello world!");
