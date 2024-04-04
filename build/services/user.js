@@ -15,7 +15,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const node_crypto_1 = require("node:crypto");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const db_1 = require("../lib/db");
-const JWT_SECRET = "$uperM@n@123";
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
+const JWT_SECRET = process.env.JWT_SECRET;
+const SYSTEM_USERNAME = process.env.SYSTEM_USERNAME;
+const SYSTEM_PASSWORD = process.env.SYSTEM_PASSWORD;
 class UserService {
     static generateHash(salt, password) {
         const hashedPassword = (0, node_crypto_1.createHmac)("sha256", salt)
@@ -48,6 +52,11 @@ class UserService {
     static getUserToken(payload) {
         return __awaiter(this, void 0, void 0, function* () {
             const { username, password } = payload;
+            // System Check
+            if (username === SYSTEM_USERNAME && password === SYSTEM_PASSWORD) {
+                const token = jsonwebtoken_1.default.sign({ id: "system", username: ", system" }, JWT_SECRET);
+                return token;
+            }
             const user = yield UserService.getUserByUsername(username);
             if (!user)
                 throw new Error("user not found");

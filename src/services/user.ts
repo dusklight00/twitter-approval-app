@@ -1,13 +1,12 @@
 import { createHmac, randomBytes } from "node:crypto";
 import JWT from "jsonwebtoken";
 import { prismaClient } from "../lib/db";
+import dotenv from "dotenv";
+dotenv.config();
 
-const JWT_SECRET = "$uperM@n@123";
-
-// const token =
-// "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkwMzhiZWIwLTYzODMtNGRmOS1hZWNhLTAxZTY0YmZlOGE4ZCIsImVtYWlsIjoici5yYWh1bC5kZXZlbG9wZXJAZ21haWwuY29tIiwiaWF0IjoxNzExNTAwMjYyfQ._CA6slYkoQY8_6li63uLYclg7b1LBAjmF0Tx2Xtc9v";
-
-// console.log(JWT.verify(token, JWT_SECRET));
+const JWT_SECRET = process.env.JWT_SECRET as string;
+const SYSTEM_USERNAME = process.env.SYSTEM_USERNAME as string;
+const SYSTEM_PASSWORD = process.env.SYSTEM_PASSWORD as string;
 
 export interface CreateUserPayload {
   firstName: string;
@@ -60,9 +59,18 @@ class UserService {
 
   public static async getUserToken(payload: GetUserTokenPayload) {
     const { username, password } = payload;
+
+    // System Check
+    if (username === SYSTEM_USERNAME && password === SYSTEM_PASSWORD) {
+      const token = JWT.sign(
+        { id: "system", username: ", system" },
+        JWT_SECRET
+      );
+      return token;
+    }
+
     const user = await UserService.getUserByUsername(username);
     if (!user) throw new Error("user not found");
-
     const userSalt = user.salt;
     const usersHashPassword = UserService.generateHash(userSalt, password);
 
