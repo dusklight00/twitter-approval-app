@@ -14,9 +14,9 @@ import {
 } from "@mui/material";
 
 import CheckIcon from "@mui/icons-material/Check";
-import CloseIcon from "@mui/icons-material/Close";
+// import CloseIcon from "@mui/icons-material/Close";
 
-function PostCard() {
+function PostCard({ post, isAdmin }) {
   return (
     <Card>
       <CardContent>
@@ -24,44 +24,52 @@ function PostCard() {
           <Stack>
             <Stack direction="row" justifyContent="space-between">
               <Typography variant="h5" component="div">
-                Rahul Raj
+                {post.title}
               </Typography>
-              <ButtonGroup>
-                <IconButton color="error">
-                  <DeleteIcon />
-                </IconButton>
-                <IconButton>
-                  <CheckIcon />
-                </IconButton>
-                <IconButton>
-                  <CloseIcon />
-                </IconButton>
-              </ButtonGroup>
+              {isAdmin && (
+                <ButtonGroup>
+                  <IconButton color="error">
+                    <DeleteIcon />
+                  </IconButton>
+                  <IconButton>
+                    <CheckIcon />
+                  </IconButton>
+                </ButtonGroup>
+              )}
             </Stack>
             <Typography
               sx={{ fontSize: 14 }}
               color="text.secondary"
               gutterBottom
             >
-              dusklight00
+              {post.user.username}
             </Typography>
           </Stack>
           {/* <Divider /> */}
           {/* <Stack direction="row" gap={2}> */}
           <Paper className="p-3">
             <Typography variant="h5" component="div">
-              anime is best
+              {post.content}
             </Typography>
           </Paper>
           {/* </Stack> */}
 
           {/* <Divider /> */}
-          <Chip
-            label="Not Approved"
-            size="small"
-            color="error"
-            className="w-min"
-          />
+          {post.isApproved ? (
+            <Chip
+              label="Approved"
+              size="small"
+              color="success"
+              className="w-min"
+            />
+          ) : (
+            <Chip
+              label="Not Approved"
+              size="small"
+              color="error"
+              className="w-min"
+            />
+          )}
         </Stack>
       </CardContent>
     </Card>
