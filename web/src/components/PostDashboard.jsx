@@ -6,6 +6,7 @@ import { gql, useQuery, useLazyQuery } from "@apollo/client";
 const FETCH_USER_POST = gql`
   query Query {
     getUserPosts {
+      postId
       title
       content
       isApproved
@@ -19,6 +20,7 @@ const FETCH_USER_POST = gql`
 const FETCH_ADMIN_POST = gql`
   query Query {
     getAllPosts {
+      postId
       title
       content
       isApproved
@@ -56,6 +58,7 @@ function PostDashboard() {
           });
         } else if (type == "user") {
           Promise.all([getUserPosts()]).then((data) => {
+            console.log(data);
             setPosts(data[0].data.getUserPosts);
           });
         }

@@ -14,9 +14,43 @@ import {
 } from "@mui/material";
 
 import CheckIcon from "@mui/icons-material/Check";
+import { gql, useMutation } from "@apollo/client";
 // import CloseIcon from "@mui/icons-material/Close";
 
+const APPROVE_POST = gql`
+  mutation Mutation($postId: ID!) {
+    approvePost(postId: $postId) {
+      postId
+      title
+      content
+      userId
+      isApproved
+      user {
+        id
+        firstName
+        lastName
+        email
+        type
+        username
+      }
+    }
+  }
+`;
+
 function PostCard({ post, isAdmin }) {
+  const [approvePost, _] = useMutation(APPROVE_POST);
+
+  const handleApprove = async (e) => {
+    const postId = e.currentTarget.id;
+    console.log(postId);
+    await approvePost({
+      variables: {
+        postId,
+      },
+    });
+    window.location.reload();
+  };
+
   return (
     <Card>
       <CardContent>
@@ -31,7 +65,7 @@ function PostCard({ post, isAdmin }) {
                   <IconButton color="error">
                     <DeleteIcon />
                   </IconButton>
-                  <IconButton>
+                  <IconButton id={post.postId} onClick={handleApprove}>
                     <CheckIcon />
                   </IconButton>
                 </ButtonGroup>
