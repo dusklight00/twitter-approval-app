@@ -1,11 +1,38 @@
 import { useState } from "react";
 import { Button, Modal, Box, Typography, TextField } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import { gql, useMutation } from "@apollo/client";
+
+const CREATE_POST = gql`
+  mutation Mutation($title: String!, $content: String!) {
+    createPost(title: $title, content: $content) {
+      title
+      content
+    }
+  }
+`;
 
 export default function CreatePostModel() {
+  const [createPost] = useMutation(CREATE_POST);
+
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const handlePost = () => {
+    createPost({
+      variables: {
+        title: title,
+        content: content,
+      },
+    }).then(() => {
+      window.location.reload();
+    });
+    handleClose();
+  };
 
   const style = {
     position: "absolute",
@@ -41,16 +68,20 @@ export default function CreatePostModel() {
           >
             <TextField
               className="w-full"
+              value={title}
               rows={6}
+              onChange={(e) => setTitle(e.target.value)}
               placeholder="Create a title"
             />
             <TextField
               multiline
               className="w-full"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
               rows={6}
               placeholder="Write a body"
             />
-            <Button variant="contained" className="w-full">
+            <Button variant="contained" className="w-full" onClick={handlePost}>
               Post
             </Button>
           </Box>

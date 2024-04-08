@@ -25,7 +25,6 @@ import { add } from "ionicons/icons";
 import { OverlayEventDetail } from "@ionic/core/components";
 import ExploreContainer from "../components/ExploreContainer";
 import { gql, useQuery, useMutation } from "@apollo/client";
-import e from "cors";
 
 const FETCH_POSTS = gql`
   query Query {
@@ -109,7 +108,7 @@ const DashboardPage: React.FC = () => {
 
   const { loading, error, data } = useQuery(FETCH_POSTS);
   const { data: userData } = useQuery(USER_DATA);
-  console.log(data)
+  console.log(data);
   const { error: allPostError, data: allPostData } = useQuery(FETCH_ALL_POSTS);
 
   const handleApprovePost = async (e: any) => {
@@ -121,7 +120,7 @@ const DashboardPage: React.FC = () => {
       },
     });
     setPosts(allPostData?.getAllPosts ? allPostData.getAllPosts : []);
-    console.log(posts)
+    console.log(posts);
     console.log(result);
   };
 
