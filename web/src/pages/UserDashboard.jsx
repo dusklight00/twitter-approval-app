@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Container,
@@ -18,15 +18,21 @@ import UserCard from "../components/UserCard";
 import PostCard from "../components/PostCard";
 import PostDashboard from "../components/PostDashboard";
 import CreatePostModel from "../components/CreatePostModel";
+import Settings from "../components/Settings";
 
 function UserDasboard() {
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      window.location.replace("/login");
+    }
+  });
+
   return (
     <Container>
       <Stack direction="row" justifyContent="space-between" className="pt-10">
         <CreatePostModel />
-        <IconButton>
-          <SettingsIcon />
-        </IconButton>
+        <Settings />
       </Stack>
       <Typography variant="h5" component="h5" my="30px">
         <b>Posts</b>
