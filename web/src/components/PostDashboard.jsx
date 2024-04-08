@@ -29,32 +29,32 @@ const FETCH_ADMIN_POST = gql`
   }
 `;
 
-const IS_ADMIN = gql`
+const TYPE = gql`
   query Query {
     getCurrentLoggedInUser {
-      isAdmin
+      type
     }
   }
 `;
 
 function PostDashboard() {
   const [posts, setPosts] = useState([]);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [type, setType] = useState("");
 
   const [getUserPosts] = useLazyQuery(FETCH_USER_POST);
   const [getAdminPosts] = useLazyQuery(FETCH_ADMIN_POST);
-  const [getIsAdmin] = useLazyQuery(IS_ADMIN);
+  const [getType] = useLazyQuery(TYPE);
 
   useEffect(() => {
     const fetchPosts = () => {
-      Promise.all([getIsAdmin()]).then((data) => {
-        const isAdmin = data[0].data.getCurrentLoggedInUser.isAdmin;
-        setIsAdmin(isAdmin);
-        if (isAdmin) {
+      Promise.all([getType()]).then((data) => {
+        const type = data[0].data.getCurrentLoggedInUser.type;
+        setType(type);
+        if (type == "admin") {
           Promise.all([getAdminPosts()]).then((data) => {
             setPosts(data[0].data.getAllPosts);
           });
-        } else {
+        } else if (type == "user") {
           Promise.all([getUserPosts()]).then((data) => {
             setPosts(data[0].data.getUserPosts);
           });
@@ -67,7 +67,7 @@ function PostDashboard() {
   return (
     <Stack gap={3}>
       {[...posts].reverse().map((post, index) => (
-        <PostCard key={index} isAdmin={isAdmin} post={post} />
+        <PostCard key={index} isAdmin={type === "admin"} post={post} />
       ))}
     </Stack>
   );

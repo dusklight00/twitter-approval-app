@@ -21,7 +21,7 @@ model User {
   email     String  @unique
   password  String
   salt      String
-  isAdmin   Boolean @map("is_admin")
+  type      String
   Post      Post[]
 
   @@map("users")
