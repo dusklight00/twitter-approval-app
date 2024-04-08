@@ -72,5 +72,8 @@ class UserService {
     static decodeJWTToken(token) {
         return jsonwebtoken_1.default.verify(token, JWT_SECRET);
     }
+    static getAllUsers() {
+        return db_1.prismaClient.user.findMany();
+    }
 }
 exports.default = UserService;

@@ -42,6 +42,9 @@ const queries = {
         const posts = yield post_1.default.getAllPosts();
         return posts.map((post) => (Object.assign(Object.assign({}, post), { user: user_1.default.getUserById(post.userId) })));
     }),
+    getUsers: () => __awaiter(void 0, void 0, void 0, function* () {
+        return user_1.default.getAllUsers();
+    }),
 };
 const mutations = {
     createUser: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {

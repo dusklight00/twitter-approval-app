@@ -34,6 +34,9 @@ const queries = {
       user: UserService.getUserById(post.userId),
     }));
   },
+  getUsers: async () => {
+    return UserService.getAllUsers();
+  },
 };
 
 const mutations = {
