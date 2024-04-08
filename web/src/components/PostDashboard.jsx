@@ -66,7 +66,7 @@ function PostDashboard() {
 
   return (
     <Stack gap={3}>
-      {posts.map((post, index) => (
+      {[...posts].reverse().map((post, index) => (
         <PostCard key={index} isAdmin={isAdmin} post={post} />
       ))}
     </Stack>
