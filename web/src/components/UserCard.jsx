@@ -13,7 +13,7 @@ import {
   IconButton,
 } from "@mui/material";
 
-function UserCard() {
+function UserCard({ user }) {
   return (
     <Card>
       <CardContent>
@@ -21,7 +21,7 @@ function UserCard() {
           <Stack>
             <Stack direction="row" justifyContent="space-between">
               <Typography variant="h5" component="div">
-                Rahul Raj
+                {user.firstName} {user.lastName}
               </Typography>
               <ButtonGroup>
                 <Button variant="text">Change Password</Button>
@@ -35,32 +35,68 @@ function UserCard() {
               color="text.secondary"
               gutterBottom
             >
-              dusklight00
+              {user.username}
             </Typography>
           </Stack>
           {/* <Divider /> */}
           <Stack direction="row" gap={2}>
-            <Paper className="p-3">
-              <Typography variant="h5" component="div">
-                12
-              </Typography>
-              <Typography
-                sx={{ fontSize: 14 }}
-                color="text.secondary"
-                gutterBottom
-              >
-                Tweeted
-              </Typography>
-            </Paper>
+            {user.type === "admin" || user.type === "user" ? (
+              <Paper className="p-3">
+                <Typography variant="h5" component="div">
+                  12
+                </Typography>
+                <Typography
+                  sx={{ fontSize: 14 }}
+                  color="text.secondary"
+                  gutterBottom
+                >
+                  Tweeted
+                </Typography>
+              </Paper>
+            ) : (
+              ""
+            )}
+            {user.type === "admin" ? (
+              <Paper className="p-3">
+                <Typography variant="h5" component="div">
+                  12
+                </Typography>
+                <Typography
+                  sx={{ fontSize: 14 }}
+                  color="text.secondary"
+                  gutterBottom
+                >
+                  Approved
+                </Typography>
+              </Paper>
+            ) : (
+              ""
+            )}
           </Stack>
 
           {/* <Divider /> */}
-          <Chip
-            label="Not admin"
-            size="small"
-            color="error"
-            className="w-min"
-          />
+          {user.type === "admin" ? (
+            <Chip
+              label="Admin"
+              size="small"
+              color="success"
+              className="w-min"
+            />
+          ) : user.type === "user" ? (
+            <Chip
+              label="Not admin"
+              size="small"
+              color="error"
+              className="w-min"
+            />
+          ) : (
+            <Chip
+              label="System"
+              size="small"
+              color="warning"
+              className="w-min"
+            />
+          )}
         </Stack>
       </CardContent>
     </Card>

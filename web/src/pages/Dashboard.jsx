@@ -19,6 +19,7 @@ import PostCard from "../components/PostCard";
 import PostDashboard from "../components/PostDashboard";
 import CreatePostModel from "../components/CreatePostModel";
 import Settings from "../components/Settings";
+import UserDashboard from "../components/UserDashboard";
 
 function Dashboard() {
   useEffect(() => {
@@ -37,7 +38,8 @@ function Dashboard() {
       <Typography variant="h5" component="h5" my="30px">
         <b>Posts</b>
       </Typography>
-      <PostDashboard />
+      {/* <PostDashboard /> */}
+      <UserDashboard />
     </Container>
   );
 }
