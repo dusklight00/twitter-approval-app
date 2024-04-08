@@ -27,7 +27,7 @@ function LoginPage() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      window.location.replace("/user-dashboard");
+      window.location.replace("/dashboard");
     }
   });
 

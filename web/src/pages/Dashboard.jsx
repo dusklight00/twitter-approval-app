@@ -20,7 +20,7 @@ import PostDashboard from "../components/PostDashboard";
 import CreatePostModel from "../components/CreatePostModel";
 import Settings from "../components/Settings";
 
-function UserDasboard() {
+function Dashboard() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -42,4 +42,4 @@ function UserDasboard() {
   );
 }
 
-export default UserDasboard;
+export default Dashboard;
