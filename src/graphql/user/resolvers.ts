@@ -34,6 +34,9 @@ const queries = {
       user: UserService.getUserById(post.userId),
     }));
   },
+  getUsers: async () => {
+    return UserService.getAllUsers();
+  },
 };
 
 const mutations = {
@@ -53,6 +56,14 @@ const mutations = {
     const res = await PostService.approvePost(postId);
     const user = await UserService.getUserById(res.userId);
     return { ...res, user };
+  },
+  increaseTweeted: async (_: any, { userId }: { userId: string }) => {
+    const res = await UserService.increaseTweeted(userId);
+    return res;
+  },
+  increaseApproved: async (_: any, { userId }: { userId: string }) => {
+    const res = await UserService.increaseApproved(userId);
+    return res;
   },
 };
 

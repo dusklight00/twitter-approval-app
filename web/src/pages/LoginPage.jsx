@@ -9,7 +9,7 @@ import {
   Snackbar,
 } from "@mui/material";
 import { useQuery, gql } from "@apollo/client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const query = gql`
   query Query($username: String!, $password: String!) {
@@ -23,6 +23,13 @@ function LoginPage() {
 
   const [snackMessage, setSnackMessage] = useState("");
   const [snackOpen, setSnackOpen] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      window.location.replace("/dashboard");
+    }
+  });
 
   const { loading, error, data } = useQuery(query, {
     variables: {

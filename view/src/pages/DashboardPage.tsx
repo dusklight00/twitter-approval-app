@@ -26,7 +26,6 @@ import { OverlayEventDetail } from "@ionic/core/components";
 import ExploreContainer from "../components/ExploreContainer";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import axios from "axios";
-import e from "cors";
 
 const FETCH_POSTS = gql`
   query Query {
@@ -104,7 +103,7 @@ const DashboardPage: React.FC = () => {
   const [body, setBody] = useState("");
   const [posts, setPosts] = useState<Post[]>([]);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [image, setImage] = useState<string| null>("");
+  const [image, setImage] = useState<string | null>("");
 
   const [createPost, { data: mutation, error: mutationError }] =
     useMutation(CREATE_POST);
@@ -112,7 +111,7 @@ const DashboardPage: React.FC = () => {
 
   const { loading, error, data } = useQuery(FETCH_POSTS);
   const { data: userData } = useQuery(USER_DATA);
-  console.log(data)
+  console.log(data);
   const { error: allPostError, data: allPostData } = useQuery(FETCH_ALL_POSTS);
 
   const handleApprovePost = async (e: any) => {
@@ -121,9 +120,9 @@ const DashboardPage: React.FC = () => {
     const post = posts.find((post) => post.postId === postId);
     try {
       const body = post?.content;
-      await axios.post("http://localhost:8000/approve", { body })
+      await axios.post("http://localhost:8000/approve", { body });
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
     const result = await approvePost({
       variables: {
@@ -131,7 +130,7 @@ const DashboardPage: React.FC = () => {
       },
     });
     setPosts(allPostData?.getAllPosts ? allPostData.getAllPosts : []);
-    console.log(posts)
+    console.log(posts);
     console.log(result);
   };
 
@@ -195,7 +194,7 @@ const DashboardPage: React.FC = () => {
       };
       reader.readAsDataURL(selectedFile);
     }
-  }
+  };
 
   return (
     <IonPage>
@@ -217,7 +216,9 @@ const DashboardPage: React.FC = () => {
               <IonCardHeader>
                 <IonCardTitle>{post.title}</IonCardTitle>
                 {isAdmin ? (
-                  <IonCardSubtitle>{post.user?.username || " "}</IonCardSubtitle>
+                  <IonCardSubtitle>
+                    {post.user?.username || " "}
+                  </IonCardSubtitle>
                 ) : (
                   ""
                 )}
@@ -227,7 +228,9 @@ const DashboardPage: React.FC = () => {
               <IonCardContent>
                 <p>{post.content}</p>
               </IonCardContent>
-              {post.image ? <img src={post.image as string} alt="preview" /> : null}
+              {post.image ? (
+                <img src={post.image as string} alt="preview" />
+              ) : null}
               <div className="px-3 pb-3">
                 {post.isApproved ? (
                   <IonChip color="success" className="m-0">
@@ -296,7 +299,7 @@ const DashboardPage: React.FC = () => {
                 ></IonTextarea>
               </IonItem>
               <IonItem>
-                <input 
+                <input
                   type="file"
                   accept="image/*"
                   onChange={handleImageChange}

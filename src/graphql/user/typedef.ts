@@ -4,8 +4,10 @@ export const typeDefs = `#graphql
         firstName: String!
         lastName: String
         email: String!
-        isAdmin: Boolean!
+        type: String!
         username: String!
+        tweeted: Int!
+        approved: Int!
     }
 
     type Post {

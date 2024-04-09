@@ -23,7 +23,7 @@ async function init() {
     accessToken: "1773923161395929089-HabCqpk6BmfwSrzAKegHpjkYz7MBO2",
     accessSecret: "ysGu9blTficrqUrF1AinsYMvjCnRDuoDImDbcSuOnGHmc",
   });
-  
+
   const twitterClient = client.readWrite;
 
   app.get("/", (req, res) => {
@@ -31,15 +31,17 @@ async function init() {
   });
 
   app.use("/approve", async (req, res) => {
+    const title = req.body.title as string;
+    const content = req.body.content as string;
+    const tweet = `${title.toUpperCase()}\n${content}`;
     try {
-      const {body} = req.body;
-      await twitterClient.v2.tweet(body);
+      await twitterClient.v2.tweet(tweet);
       res.json({ message: "Tweeted successfully" });
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
   });
-  
+
   app.use(
     "/graphql",
     expressMiddleware(gqlServer, {
