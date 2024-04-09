@@ -83,9 +83,9 @@ function PostCard({ post, isAdmin }) {
               </Typography>
               {isAdmin && (
                 <ButtonGroup>
-                  <IconButton color="error">
+                  {/* <IconButton color="error">
                     <DeleteIcon />
-                  </IconButton>
+                  </IconButton> */}
                   <IconButton id={post.postId} onClick={handleApprove}>
                     <CheckIcon />
                   </IconButton>

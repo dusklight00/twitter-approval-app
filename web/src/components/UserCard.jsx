@@ -23,12 +23,12 @@ function UserCard({ user }) {
               <Typography variant="h5" component="div">
                 {user.firstName} {user.lastName}
               </Typography>
-              <ButtonGroup>
+              {/* <ButtonGroup>
                 <Button variant="text">Change Password</Button>
                 <IconButton color="error">
                   <DeleteIcon />
                 </IconButton>
-              </ButtonGroup>
+              </ButtonGroup> */}
             </Stack>
             <Typography
               sx={{ fontSize: 14 }}
