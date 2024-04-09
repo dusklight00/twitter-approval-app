@@ -12,6 +12,7 @@ import {
   Button,
   IconButton,
 } from "@mui/material";
+import instance from "../instance";
 
 import CheckIcon from "@mui/icons-material/Check";
 import { gql, useMutation } from "@apollo/client";
@@ -69,6 +70,10 @@ function PostCard({ post, isAdmin }) {
         userId,
       },
     });
+    const post = approveData.data.approvePost;
+    const title = post.title;
+    const content = post.content;
+    await instance.post("/approve", { title, content });
     window.location.reload();
   };
 
