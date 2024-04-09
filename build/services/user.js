@@ -77,5 +77,25 @@ class UserService {
     static getAllUsers() {
         return db_1.prismaClient.user.findMany();
     }
+    static increaseTweeted(id) {
+        return db_1.prismaClient.user.update({
+            where: { id },
+            data: {
+                tweeted: {
+                    increment: 1,
+                },
+            },
+        });
+    }
+    static increaseApproved(id) {
+        return db_1.prismaClient.user.update({
+            where: { id },
+            data: {
+                approved: {
+                    increment: 1,
+                },
+            },
+        });
+    }
 }
 exports.default = UserService;

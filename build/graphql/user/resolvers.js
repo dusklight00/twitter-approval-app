@@ -64,5 +64,13 @@ const mutations = {
         const user = yield user_1.default.getUserById(res.userId);
         return Object.assign(Object.assign({}, res), { user });
     }),
+    increaseTweeted: (_2, _b) => __awaiter(void 0, [_2, _b], void 0, function* (_, { userId }) {
+        const res = yield user_1.default.increaseTweeted(userId);
+        return res;
+    }),
+    increaseApproved: (_3, _c) => __awaiter(void 0, [_3, _c], void 0, function* (_, { userId }) {
+        const res = yield user_1.default.increaseApproved(userId);
+        return res;
+    }),
 };
 exports.resolvers = { queries, mutations };

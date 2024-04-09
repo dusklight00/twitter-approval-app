@@ -37,15 +37,36 @@ const APPROVE_POST = gql`
   }
 `;
 
+const INCREASE_APPROVED = gql`
+  mutation Mutation($userId: ID!) {
+    increaseApproved(userId: $userId) {
+      id
+      firstName
+      lastName
+      email
+      type
+      username
+      tweeted
+      approved
+    }
+  }
+`;
+
 function PostCard({ post, isAdmin }) {
   const [approvePost, _] = useMutation(APPROVE_POST);
+  const [increaseApproved, __] = useMutation(INCREASE_APPROVED);
 
   const handleApprove = async (e) => {
     const postId = e.currentTarget.id;
-    console.log(postId);
-    await approvePost({
+    const approveData = await approvePost({
       variables: {
         postId,
+      },
+    });
+    const userId = approveData.data.approvePost.userId;
+    await increaseApproved({
+      variables: {
+        userId,
       },
     });
     window.location.reload();

@@ -93,8 +93,31 @@ class UserService {
   public static decodeJWTToken(token: string) {
     return JWT.verify(token, JWT_SECRET);
   }
+
   public static getAllUsers() {
     return prismaClient.user.findMany();
+  }
+
+  public static increaseTweeted(id: string) {
+    return prismaClient.user.update({
+      where: { id },
+      data: {
+        tweeted: {
+          increment: 1,
+        },
+      },
+    });
+  }
+
+  public static increaseApproved(id: string) {
+    return prismaClient.user.update({
+      where: { id },
+      data: {
+        approved: {
+          increment: 1,
+        },
+      },
+    });
   }
 }
 

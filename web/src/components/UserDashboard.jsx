@@ -33,7 +33,7 @@ function UserDashboard() {
 
   return (
     <Stack gap={3}>
-      {users.map((user, index) => (
+      {[...users].reverse().map((user, index) => (
         <UserCard user={user} key={index} />
       ))}
     </Stack>

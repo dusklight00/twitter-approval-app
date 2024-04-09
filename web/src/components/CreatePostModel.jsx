@@ -8,12 +8,29 @@ const CREATE_POST = gql`
     createPost(title: $title, content: $content) {
       title
       content
+      userId
+    }
+  }
+`;
+
+const INCREASE_TWITTED = gql`
+  mutation Mutation($userId: ID!) {
+    increaseTweeted(userId: $userId) {
+      id
+      firstName
+      lastName
+      email
+      type
+      username
+      tweeted
+      approved
     }
   }
 `;
 
 export default function CreatePostModel() {
   const [createPost] = useMutation(CREATE_POST);
+  const [increaseTweeted] = useMutation(INCREASE_TWITTED);
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -22,14 +39,21 @@ export default function CreatePostModel() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const handlePost = () => {
+  const handlePost = async () => {
     createPost({
       variables: {
         title: title,
         content: content,
       },
-    }).then(() => {
-      window.location.reload();
+    }).then((data) => {
+      const userId = data.data.createPost.userId;
+      increaseTweeted({
+        variables: {
+          userId,
+        },
+      }).then(() => {
+        window.location.reload();
+      });
     });
     handleClose();
   };

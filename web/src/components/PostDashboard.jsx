@@ -39,9 +39,8 @@ const TYPE = gql`
   }
 `;
 
-function PostDashboard() {
+function PostDashboard({ type }) {
   const [posts, setPosts] = useState([]);
-  const [type, setType] = useState("");
 
   const [getUserPosts] = useLazyQuery(FETCH_USER_POST);
   const [getAdminPosts] = useLazyQuery(FETCH_ADMIN_POST);
@@ -50,15 +49,12 @@ function PostDashboard() {
   useEffect(() => {
     const fetchPosts = () => {
       Promise.all([getType()]).then((data) => {
-        const type = data[0].data.getCurrentLoggedInUser.type;
-        setType(type);
         if (type == "admin") {
           Promise.all([getAdminPosts()]).then((data) => {
             setPosts(data[0].data.getAllPosts);
           });
         } else if (type == "user") {
           Promise.all([getUserPosts()]).then((data) => {
-            console.log(data);
             setPosts(data[0].data.getUserPosts);
           });
         }

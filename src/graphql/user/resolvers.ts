@@ -57,6 +57,14 @@ const mutations = {
     const user = await UserService.getUserById(res.userId);
     return { ...res, user };
   },
+  increaseTweeted: async (_: any, { userId }: { userId: string }) => {
+    const res = await UserService.increaseTweeted(userId);
+    return res;
+  },
+  increaseApproved: async (_: any, { userId }: { userId: string }) => {
+    const res = await UserService.increaseApproved(userId);
+    return res;
+  },
 };
 
 export const resolvers = { queries, mutations };
