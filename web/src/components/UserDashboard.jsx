@@ -11,6 +11,8 @@ const FETCH_USERS = gql`
       username
       email
       type
+      tweeted
+      approved
     }
   }
 `;

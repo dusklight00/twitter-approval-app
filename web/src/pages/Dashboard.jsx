@@ -20,6 +20,7 @@ import PostDashboard from "../components/PostDashboard";
 import CreatePostModel from "../components/CreatePostModel";
 import Settings from "../components/Settings";
 import UserDashboard from "../components/UserDashboard";
+import CreateUserModal from "../components/CreateUserModal";
 
 function Dashboard() {
   useEffect(() => {
@@ -32,7 +33,8 @@ function Dashboard() {
   return (
     <Container>
       <Stack direction="row" justifyContent="space-between" className="pt-10">
-        <CreatePostModel />
+        {/* <CreatePostModel /> */}
+        <CreateUserModal />
         <Settings />
       </Stack>
       <Typography variant="h5" component="h5" my="30px">

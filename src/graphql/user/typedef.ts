@@ -6,6 +6,8 @@ export const typeDefs = `#graphql
         email: String!
         type: String!
         username: String!
+        tweeted: Int!
+        approved: Int!
     }
 
     type Post {

@@ -14,6 +14,8 @@ export interface CreateUserPayload {
   email: string;
   username: string;
   password: string;
+  tweeted: number;
+  approved: number;
   type: string;
 }
 
@@ -43,6 +45,8 @@ class UserService {
         email,
         salt,
         username,
+        tweeted: 0,
+        approved: 0,
         password: hashedPassword,
         type,
       },

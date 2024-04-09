@@ -38,6 +38,8 @@ class UserService {
                 email,
                 salt,
                 username,
+                tweeted: 0,
+                approved: 0,
                 password: hashedPassword,
                 type,
             },

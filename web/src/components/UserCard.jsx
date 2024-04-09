@@ -43,7 +43,7 @@ function UserCard({ user }) {
             {user.type === "admin" || user.type === "user" ? (
               <Paper className="p-3">
                 <Typography variant="h5" component="div">
-                  12
+                  {user.tweeted}
                 </Typography>
                 <Typography
                   sx={{ fontSize: 14 }}
@@ -59,7 +59,7 @@ function UserCard({ user }) {
             {user.type === "admin" ? (
               <Paper className="p-3">
                 <Typography variant="h5" component="div">
-                  12
+                  {user.approved}
                 </Typography>
                 <Typography
                   sx={{ fontSize: 14 }}
