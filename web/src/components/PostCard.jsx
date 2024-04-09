@@ -12,11 +12,71 @@ import {
   Button,
   IconButton,
 } from "@mui/material";
+import instance from "../instance";
 
 import CheckIcon from "@mui/icons-material/Check";
-import CloseIcon from "@mui/icons-material/Close";
+import { gql, useMutation } from "@apollo/client";
+// import CloseIcon from "@mui/icons-material/Close";
 
-function PostCard() {
+const APPROVE_POST = gql`
+  mutation Mutation($postId: ID!) {
+    approvePost(postId: $postId) {
+      postId
+      title
+      content
+      userId
+      isApproved
+      user {
+        id
+        firstName
+        lastName
+        email
+        type
+        username
+      }
+    }
+  }
+`;
+
+const INCREASE_APPROVED = gql`
+  mutation Mutation($userId: ID!) {
+    increaseApproved(userId: $userId) {
+      id
+      firstName
+      lastName
+      email
+      type
+      username
+      tweeted
+      approved
+    }
+  }
+`;
+
+function PostCard({ post, isAdmin }) {
+  const [approvePost, _] = useMutation(APPROVE_POST);
+  const [increaseApproved, __] = useMutation(INCREASE_APPROVED);
+
+  const handleApprove = async (e) => {
+    const postId = e.currentTarget.id;
+    const approveData = await approvePost({
+      variables: {
+        postId,
+      },
+    });
+    const userId = approveData.data.approvePost.userId;
+    await increaseApproved({
+      variables: {
+        userId,
+      },
+    });
+    const post = approveData.data.approvePost;
+    const title = post.title;
+    const content = post.content;
+    await instance.post("/approve", { title, content });
+    window.location.reload();
+  };
+
   return (
     <Card>
       <CardContent>
@@ -24,44 +84,52 @@ function PostCard() {
           <Stack>
             <Stack direction="row" justifyContent="space-between">
               <Typography variant="h5" component="div">
-                Rahul Raj
+                {post.title}
               </Typography>
-              <ButtonGroup>
-                <IconButton color="error">
-                  <DeleteIcon />
-                </IconButton>
-                <IconButton>
-                  <CheckIcon />
-                </IconButton>
-                <IconButton>
-                  <CloseIcon />
-                </IconButton>
-              </ButtonGroup>
+              {isAdmin && (
+                <ButtonGroup>
+                  {/* <IconButton color="error">
+                    <DeleteIcon />
+                  </IconButton> */}
+                  <IconButton id={post.postId} onClick={handleApprove}>
+                    <CheckIcon />
+                  </IconButton>
+                </ButtonGroup>
+              )}
             </Stack>
             <Typography
               sx={{ fontSize: 14 }}
               color="text.secondary"
               gutterBottom
             >
-              dusklight00
+              {post.user.username}
             </Typography>
           </Stack>
           {/* <Divider /> */}
           {/* <Stack direction="row" gap={2}> */}
           <Paper className="p-3">
             <Typography variant="h5" component="div">
-              anime is best
+              {post.content}
             </Typography>
           </Paper>
           {/* </Stack> */}
 
           {/* <Divider /> */}
-          <Chip
-            label="Not Approved"
-            size="small"
-            color="error"
-            className="w-min"
-          />
+          {post.isApproved ? (
+            <Chip
+              label="Approved"
+              size="small"
+              color="success"
+              className="w-min"
+            />
+          ) : (
+            <Chip
+              label="Not Approved"
+              size="small"
+              color="error"
+              className="w-min"
+            />
+          )}
         </Stack>
       </CardContent>
     </Card>

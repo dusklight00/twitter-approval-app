@@ -5,4 +5,5 @@ export const queries = `#graphql
     getCurrentLoggedInUser: User
     getUserPosts: [Post]
     getAllPosts: [Post]
+    getUsers: [User]
 `;
