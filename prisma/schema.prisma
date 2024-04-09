@@ -32,6 +32,7 @@ model Post {
   title      String
   content    String
   isApproved Boolean @map("is_approved")
+  image      String?
   userId     String  @map("user_id")
   user       User    @relation(fields: [userId], references: [id])
 
