@@ -19,7 +19,7 @@ import {
 import { setContext } from "@apollo/client/link/context";
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:8000/graphql",
+  uri: "https://twitter-approval-app-production-28af.up.railway.app/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
