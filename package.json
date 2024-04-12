@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node build/index.js",
+    "start": "node public/index.js",
     "dev": "npx tsc-watch --onSuccess \"npm start\"",
-    "build": "tsc",
-    "vercel-build": "npm start"
+    "build": "tsc --outDir public",
+    "vercel-build": "npm run build"
   },
   "keywords": [],
   "author": "",
