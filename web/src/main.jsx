@@ -19,8 +19,10 @@ import {
 import { setContext } from "@apollo/client/link/context";
 
 const httpLink = createHttpLink({
-  uri: "https://twitter-approval-app-production-28af.up.railway.app/graphql",
+  uri: "http://localhost:8000/graphql",
 });
+
+console.log(httpLink)
 
 const authLink = setContext((_, { headers }) => {
   return {
@@ -35,6 +37,7 @@ const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
+
 
 const darkTheme = createTheme({
   palette: {

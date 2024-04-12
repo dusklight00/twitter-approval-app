@@ -47,10 +47,13 @@ async function init() {
     expressMiddleware(gqlServer, {
       context: async ({ req }) => {
         const token = req.headers["token"];
+        // console.log("token", token)
         try {
           const user = UserService.decodeJWTToken(token as string);
+          console.log("user", user)
           return { user };
         } catch (error) {
+          console.log(error)
           return {};
         }
       },

@@ -40,6 +40,11 @@ function Dashboard() {
     if (!token) {
       window.location.replace("/login");
     }
+    const getCurrentUser = async () => {
+      const user = await getType();
+      console.log(user)
+    }
+    getCurrentUser()
     Promise.all([getType()]).then((data) => {
       const type = data[0].data.getCurrentLoggedInUser.type;
       setType(type);

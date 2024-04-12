@@ -27,7 +27,7 @@ function LoginPage() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      window.location.replace("/dashboard");
+      window.location.replace("/");
     }
   });
 
@@ -55,9 +55,7 @@ function LoginPage() {
   };
 
   return (
-    <>
-    <h1>Login page </h1>
-        <Container className="h-[100vh] flex place-content-center" maxWidth="sm">
+    <Container className="h-[100vh] flex place-content-center" maxWidth="sm">
       <Card>
         <CardContent>
           <Stack gap={3}>
@@ -89,8 +87,6 @@ function LoginPage() {
         </CardContent>
       </Card>
     </Container>
-    </>
-
   );
 }
 
