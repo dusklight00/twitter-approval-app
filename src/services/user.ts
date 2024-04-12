@@ -58,14 +58,12 @@ class UserService {
   }
 
   public static getUserById(id: string) {
-    console.log("id", id)
     return prismaClient.user.findUnique({ where: { id } });
   }
 
   public static async getUserToken(payload: GetUserTokenPayload) {
     const { username, password } = payload;
 
-    console.log(JWT_SECRET)
 
     // System Check
     // if (username === SYSTEM_USERNAME && password === SYSTEM_PASSWORD) {
@@ -94,8 +92,6 @@ class UserService {
   }
 
   public static decodeJWTToken(token: string) {
-    const working = JWT.verify(token, JWT_SECRET)
-    console.log("working", working)
     return JWT.verify(token, JWT_SECRET);
   }
 

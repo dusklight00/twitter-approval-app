@@ -50,7 +50,7 @@ async function init() {
         // console.log("token", token)
         try {
           const user = UserService.decodeJWTToken(token as string);
-          console.log("user", user)
+          // console.log("user", user)
           return { user };
         } catch (error) {
           console.log(error)
